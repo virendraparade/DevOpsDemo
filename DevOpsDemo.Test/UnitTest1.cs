@@ -22,6 +22,7 @@ namespace DevOpsDemo.Test
         {
 
             //Act
+            var a = 1;
             var result = Home.Index();
             //Assert
             Assert.IsType<ViewResult>(result);
