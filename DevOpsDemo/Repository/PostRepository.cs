@@ -1,6 +1,8 @@
 ﻿using DevOpsDemo.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace DevOpsDemo.Repository
 {
     public class PostRepository : IPostRepository
@@ -8,13 +10,22 @@ namespace DevOpsDemo.Repository
         public List<PostViewModel> GetPosts()
         {
             List<PostViewModel> firstlist = new List<PostViewModel>();
-            for (int i = 1; i <= 10000; i++) {
-            var a= new PostViewModel() { PostId = 10+i, Title = "DevOps Demo Title1", Description = "DevOps Demo Description"+i, Author = "There is also a Blazor WebAssembly preview update available with this release, Daniel Roth, principal program manager for ASP.NET, said in announcing ASP.NET Core and Blazor updates in .NET Core 3.0 RC1. This update to Blazor WebAssembly still has a Preview 9 version, but carries an updated build number. This is not a release candidate for Blazor WebAssembly. Blazor WebAssembly isn't expected to ship as a stable release until some time after .NET Core 3.0 ships (details coming soon!)." };
+            for (int i = 1; i <= 10000; i++)
+            {
+                var a= new PostViewModel() { PostId = Guid.NewGuid(), Title = RandomString(4)+"-"+RandomString(4) + "-"+ RandomString(4) + "-"+ RandomString(4), Description = RandomString(6) + "-" + RandomString(6) + "-" + RandomString(6) + "-" + RandomString(6), Author = RandomString(5) + "-" + RandomString(5) + "-" + RandomString(5) + "-" + RandomString(5) };
                 firstlist.Add(a);
 
             }
 
             return firstlist;
+        }
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
