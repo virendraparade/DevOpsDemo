@@ -1,7 +1,11 @@
 ﻿using DevOpsDemo.Models;
 using DevOpsDemo.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
+using ClosedXML.Excel;
+using System.Collections.Generic;
+using System.IO;
 namespace DevOpsDemo.Controllers
 {
     public class HomeController : Controller
@@ -14,8 +18,25 @@ namespace DevOpsDemo.Controllers
         }
         public IActionResult Index()
         {
+
             var model = postRepository.GetPosts();
-            return View(model);
+            var workbook = new XLWorkbook();
+            workbook.AddWorksheet("sheetName");
+            var ws = workbook.Worksheet("sheetName");
+            int row = 1;
+            foreach (var c in model)
+            {
+                ws.Cell("A" + row.ToString()).Value = c.PostId;
+                ws.Cell("B" + row.ToString()).Value = c.Title;
+                ws.Cell("C" + row.ToString()).Value = c.Description;
+                ws.Cell("D" + row.ToString()).Value = c.Author;
+                row++;
+            }
+
+            MemoryStream stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+
         }
         public IActionResult About()
         {

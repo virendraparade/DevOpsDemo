@@ -6,3 +6,5 @@
 /DevOpsDemo
 /DevOpsDemo.Test/bin/Debug/netcoreapp2.2
 /DevOpsDemo.Test/obj
+/.vs/config
+/.vs/DevOpsDemo/DesignTimeBuild
